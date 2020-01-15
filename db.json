@@ -1,0 +1,160 @@
+{
+    "dialogs": [
+        {
+            "_id": "1",
+            "text": "___text in in a distant faraway galaxy, suddenly",
+            "created_at": "Sun Dec 24 2019 22:09:00 GMT+000 (UTC)",
+            "user": {
+                "_id": "qwe",
+                "fullname": "Ivanov Petr",
+                "photo": null,
+                "isOnline": true
+            },
+            "unreaded": "10"
+        },
+        {
+            "_id": "2",
+            "text": "___text in in a distant faraway galaxy, suddenly",
+            "created_at": "Sun Dec 20 2019 22:09:00 GMT+000 (UTC)",
+            "user": {
+                "_id": "asd",
+                "fullname": "Smirnov Petr",
+                "photo": null,
+                "isOnline": true
+            },
+            "unreaded": "0"
+        }
+    ],
+    "messages": [
+        {
+            "_id": "1",
+            "text": "___text in in a distant faraway galaxy, suddenly",
+            "created_at": "Sun Dec 24 2019 22:09:00 GMT+000 (UTC)",
+            "user": {
+                "_id": "qwe",
+                "fullname": "Ivanov Petr",
+                "photo": null,
+                "isOnline": true
+            },
+            "unreaded": "10",
+            "dialog": "1"
+        },
+        {
+            "_id": "2",
+            "text": "___text in in a distant faraway galaxy, suddenly",
+            "created_at": "Sun Dec 20 2019 22:09:00 GMT+000 (UTC)",
+            "user": {
+                "_id": "asd",
+                "fullname": "Smirnov Petr",
+                "photo": null,
+                "isOnline": true
+            },
+            "unreaded": "0",
+            "dialog": "1"
+        },
+        {
+            "_id": "3",
+            "text": "___text in in a distant faraway galaxy, suddenly",
+            "created_at": "Sun Dec 20 2019 22:09:00 GMT+000 (UTC)",
+            "user": {
+                "_id": "asd",
+                "fullname": "Smirnov Petr",
+                "photo": null,
+                "isOnline": true
+            },
+            "unreaded": "0",
+            "dialog": "1"
+        },
+        {
+            "_id": "4",
+            "text": "___text in in a distant faraway galaxy, suddenly",
+            "created_at": "Sun Dec 20 2019 22:09:00 GMT+000 (UTC)",
+            "user": {
+                "_id": "asd",
+                "fullname": "Smirnov Petr",
+                "photo": null,
+                "isOnline": true
+            },
+            "unreaded": "0",
+            "dialog": "1"
+        },
+        {
+            "_id": "5",
+            "text": "___text in in a distant faraway galaxy, suddenly",
+            "created_at": "Sun Dec 20 2019 22:09:00 GMT+000 (UTC)",
+            "user": {
+                "_id": "asd",
+                "fullname": "Smirnov Petr",
+                "photo": null,
+                "isOnline": true
+            },
+            "unreaded": "0",
+            "dialog": "1"
+        },
+        {
+            "_id": "6",
+            "text": "___text in in a distant faraway galaxy, suddenly",
+            "created_at": "Sun Dec 20 2019 22:09:00 GMT+000 (UTC)",
+            "user": {
+                "_id": "asd",
+                "fullname": "Smirnov Petr",
+                "photo": null,
+                "isOnline": true
+            },
+            "unreaded": "0",
+            "dialog": "1"
+        },
+        {
+            "_id": "7",
+            "text": "___text in in a distant faraway galaxy, suddenly",
+            "created_at": "Sun Dec 20 2019 22:09:00 GMT+000 (UTC)",
+            "user": {
+                "_id": "asd",
+                "fullname": "Smirnov Petr",
+                "photo": null,
+                "isOnline": true
+            },
+            "unreaded": "0",
+            "dialog": "1"
+        },
+        {
+            "_id": "8",
+            "text": "___text in in a distant faraway galaxy, suddenly",
+            "created_at": "Sun Dec 20 2019 22:09:00 GMT+000 (UTC)",
+            "user": {
+                "_id": "asd",
+                "fullname": "Smirnov Petr",
+                "photo": null,
+                "isOnline": true
+            },
+            "unreaded": "0",
+            "dialog": "1"
+        },
+        {
+            "_id": "9",
+            "text": "___text in in a distant faraway galaxy, suddenly",
+            "created_at": "Sun Dec 20 2019 22:09:00 GMT+000 (UTC)",
+            "user": {
+                "_id": "asd",
+                "fullname": "Smirnov Petr",
+                "photo": null,
+                "isOnline": true
+            },
+            "unreaded": "0",
+            "dialog": "1"
+        },
+        {
+            "_id": "10",
+            "text": "___text in in a distant faraway galaxy, suddenly",
+            "created_at": "Sun Dec 20 2019 22:09:00 GMT+000 (UTC)",
+            "user": {
+                "_id": "asd",
+                "fullname": "Smirnov Petr",
+                "photo": null,
+                "isOnline": true
+            },
+            "unreaded": "0",
+            "dialog": "1"
+        }
+    ]
+}
