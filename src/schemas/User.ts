@@ -1,11 +1,22 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 import isEmail from 'validator/lib/isEmail';
+
+export interface IUser extends Document {
+    email: string;
+    photo: string;
+    fullname: string;
+    password: string;
+    confirmed: boolean;
+    confirmed_hash: string;
+    last_login: Date;
+}
 
 const UserSchema = new Schema({
     email: {
         type: String,
         required: 'Email является обязательным',
-        validate: [isEmail, 'Не верно указан email']
+        validate: [isEmail, 'Не верно указан email'],
+        index: { unique: true }
     },
     photo: String,
     fullname: {
@@ -26,6 +37,6 @@ const UserSchema = new Schema({
     timestamps: true
 });
 
-const User = mongoose.model('User', UserSchema);
+const UserModel = mongoose.model<IUser>('User', UserSchema);
 
-export default User;
+export default UserModel;
