@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { UserModel } from '../schemas';
+import { UserModel } from '../models';
 
 class UserController {
 
