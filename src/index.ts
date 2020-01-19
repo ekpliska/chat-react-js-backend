@@ -7,10 +7,13 @@ import {
     DialogController, 
     MessageController } from './controllers';
 
+import { UpdateLastLogin } from './middleware';
+
 const app = express();
 
 // Для того чтобы работать в json данными
 app.use(bodyParser.json());
+app.use(UpdateLastLogin);
 
 // mongodb://localhost:27017/<db_name>
 mongoose.connect('mongodb://localhost:27017/chat', {

@@ -32,7 +32,10 @@ const UserSchema = new Schema({
         default: false
     },
     confirmed_hash: String,
-    last_login: Date
+    last_login: {
+        type: Date,
+        default: new Date(),
+    }
 }, {
     timestamps: true
 });
