@@ -10,8 +10,6 @@ export default (req: any, res: any, next: any) => {
 
     const token = req.headers.token;
 
-    console.log('token', token);
-
     verifyJWTToken(token)
         .then((user: any) => {
             req.user = user.data._doc;

@@ -2,11 +2,11 @@ import jwt from 'jsonwebtoken';
 
 export default (token: string) =>
     new Promise((resolve, reject) => {
-        jwt.verify(token, process.env.JWT_SECRET || '', (err, decodedData) => {
+        jwt.verify(token, process.env.JWT_SECRET || '', (err, decodedToken) => {
             if (err || !decodedData) {
                 return reject(err);
             }
 
-            resolve(decodedData);
+            resolve(decodedToken);
         });
     });
