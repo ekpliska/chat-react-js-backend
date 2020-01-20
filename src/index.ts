@@ -10,6 +10,8 @@ import {
 
 import { UpdateLastLogin, checkAuth } from './middlewares';
 
+import { LoginValidation } from './util/validations';
+
 const app = express();
 dotenv.config();
 
@@ -30,7 +32,7 @@ const User = new UserController();
 const Dialog = new DialogController();
 const Message = new MessageController();
 
-app.post('/user/auth', User.auth);
+app.post('/user/singin', LoginValidation, User.singin);
 app.get('/user/:id', User.index);
 app.post('/user/sing-up', User.create);
 app.delete('/user/:id', User.delete);

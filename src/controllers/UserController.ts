@@ -1,4 +1,6 @@
 import express from 'express';
+import bcrypt from 'bcrypt';
+import { validationResult } from 'express-validator';
 
 import { UserModel } from '../models';
 import { IUser } from '../models/User';
@@ -7,13 +9,21 @@ import { createJWTToken } from '../util';
 
 class UserController {
 
-    auth(req: express.Request, res: express.Response) {
+    singin(req: express.Request, res: express.Response) {
         const postData = {
             email: req.body.email,
             password: req.body.password
         };
 
-        console.log(req.body);
+        const errors = validationResult(req);
+
+        if (errors.isEmpty()) {
+            return res.status(422).json({
+                errors: errors.array()
+            });
+        }
+
+        console.log('postData', postData);
         
 
         UserModel.findOne({ email: postData.email }, (err, user: IUser) => {
@@ -22,9 +32,9 @@ class UserController {
                     message: 'Пользователь не найден'
                 });
             }
-
-            if (user.password === postData.password) {
-                const token = createJWTToken(postData);
+            
+            if (bcrypt.compareSync(postData.password, user.password)) {
+                const token = createJWTToken(user);
         
                 res.json({
                     success: true,
@@ -32,7 +42,7 @@ class UserController {
                 });
 
             } else {
-                res.json({
+                res.status(403).json({
                     success: false,
                     message: 'Неверный логин или пароль'
                 });

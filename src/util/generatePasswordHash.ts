@@ -1,20 +1,10 @@
-// import jwt from 'jsonwebtoken';
-// import { reduce } from 'lodash';
-// import { IUser } from '../models/User';
+import bcrypt from 'bcrypt';
 
-// export default (user: IUser) => {
-//     let token = jwt.sign(
-//         {
-//             data: reduce(user, (result: object, value: string, key: string) => {
-//                 if (key !== 'password') {
-//                     result[key] = value;
-//                 }
-//                 return result;
-//             }, {})
-//         },
-//         process.env.JWT_SECRET,
-//         {
-//             expiresIn: process.env.
-//         }
-//     );
-// }
+export default (password: string) => {
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(password, 10, function (err, hash: string) {
+            if (err) return reject(err);
+            resolve(hash);
+        });
+    });
+};
