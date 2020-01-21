@@ -42,13 +42,16 @@ const UserSchema = new Schema({
     timestamps: true
 });
 
-UserSchema.pre('save', function (next: any) {
+UserSchema.pre('save', async function (next: any) {
     const user: any = this;
+
+    
     if (!user.isModified('password')) {
         return next();
     }
-    user.password = generatePasswordHash(user.password);
-    user.confirm_hash = generatePasswordHash(new Date().toString());
+    
+    user.password = await generatePasswordHash(user.password);
+    user.confirmed_hash = await generatePasswordHash(new Date().toString());
 
 });
 

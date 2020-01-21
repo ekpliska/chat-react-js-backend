@@ -17,14 +17,11 @@ class UserController {
 
         const errors = validationResult(req);
 
-        if (errors.isEmpty()) {
+        if (!errors.isEmpty()) {
             return res.status(422).json({
                 errors: errors.array()
             });
         }
-
-        console.log('postData', postData);
-        
 
         UserModel.findOne({ email: postData.email }, (err, user: IUser) => {
             if (err || !user) {
@@ -72,6 +69,15 @@ class UserController {
             fullname: req.body.fullname,
             password: req.body.password
         };
+
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({
+                errors: errors.array()
+            });
+        }
+
         const user = new UserModel(postData);
         user
             .save()
