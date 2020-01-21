@@ -12,6 +12,7 @@ export default (req: any, res: any, next: any) => {
 
     verifyJWTToken(token)
         .then((user: any) => {
+            // Для авторизированного пользователя его информация из User будет доступна в req.user
             req.user = user.data._doc;
             next();
         })

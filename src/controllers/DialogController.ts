@@ -4,8 +4,8 @@ import { DialogModel, MessageModel } from '../models';
 
 class DialogController {
 
-    index(req: express.Request, res: express.Response) {
-        const authorId: string = '5e231bf1caa0dd24bcc89f6e';
+    index(req: any, res: express.Response) {
+        const authorId: string = req.user._id;
         DialogModel.find({ author: authorId })
             .populate(['author', 'partner'])
             .exec((err, dialogs) => {
@@ -19,9 +19,9 @@ class DialogController {
             })
     };
 
-    create(req: express.Request, res: express.Response) {
+    create(req: any, res: express.Response) {
         const postDataDialog: object = {
-            author: req.body.author,
+            author: req.user._id,
             partner: req.body.partner
         };
         const dialog = new DialogModel(postDataDialog);

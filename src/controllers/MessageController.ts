@@ -23,7 +23,7 @@ class MessageController {
         const postData:object = {
             text: req.body.text,
             dialog: req.body.dialog_id,
-            user: '5e231bf1caa0dd24bcc89f6e'
+            user: 'req.user._id'
         };
         const message = new MessageModel(postData);
         message

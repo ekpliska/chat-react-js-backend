@@ -34,7 +34,8 @@ const Message = new MessageController();
 
 app.post('/user/sing-up', RegisterValidation, User.create);
 app.post('/user/sing-in', LoginValidation, User.singin);
-app.get('/user/:id', User.index);
+app.get('/user/profile', User.getMe);
+app.get('/user/:id', User.show);
 app.delete('/user/:id', User.delete);
 
 app.get('/dialogs', Dialog.index);
