@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import express from 'express';
+import { createServer } from 'http';
+import socket from 'socket.io';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 
@@ -13,6 +15,10 @@ import { UpdateLastLogin, checkAuth } from './middlewares';
 import { LoginValidation, RegisterValidation } from './util/validations';
 
 const app = express();
+// Отдельный сервер на http
+const http = createServer(app);
+// Отдельный сервер на socket.io
+const io = socket(http);
 dotenv.config();
 
 // Для того чтобы работать в json данными
@@ -28,23 +34,23 @@ mongoose.connect('mongodb://localhost:27017/chat', {
     useCreateIndex: true
 });
 
-const User = new UserController();
-const Dialog = new DialogController();
-const Message = new MessageController();
+app.post('/user/sing-up', RegisterValidation, UserController.create);
+app.post('/user/sing-in', LoginValidation, UserController.singin);
+app.get('/user/profile', UserController.getMe);
+app.get('/user/:id', UserController.show);
+app.delete('/user/:id', UserController.delete);
 
-app.post('/user/sing-up', RegisterValidation, User.create);
-app.post('/user/sing-in', LoginValidation, User.singin);
-app.get('/user/profile', User.getMe);
-app.get('/user/:id', User.show);
-app.delete('/user/:id', User.delete);
+app.get('/dialogs', DialogController.index);
+app.delete('/dialogs/:id', DialogController.delete);
+app.post('/dialogs', DialogController.create);
 
-app.get('/dialogs', Dialog.index);
-app.delete('/dialogs/:id', Dialog.delete);
-app.post('/dialogs', Dialog.create);
+app.get('/messages', MessageController.index);
+app.post('/messages', MessageController.create);
 
-app.get('/messages', Message.index);
-app.post('/messages', Message.create);
+io.on('connection', function (socket: any) {
+   console.log('a user connected');
+});
 
-app.listen(process.env.PORT, function () {
+http.listen(process.env.PORT, function () {
     console.log(`App listening on port ${ process.env.PORT }!`);
 });
