@@ -1,4 +1,5 @@
 import express from 'express';
+import socket from 'socket.io';
 import bcrypt from 'bcrypt';
 import { validationResult } from 'express-validator';
 
@@ -9,7 +10,12 @@ import { createJWTToken } from '../util';
 
 class UserController {
 
-    singin(req: express.Request, res: express.Response) {
+    io: socket.Server;
+    constructor(io: socket.Server) {
+        this.io = io;
+    }
+
+    singin = (req: express.Request, res: express.Response) => {
         const postData = {
             email: req.body.email,
             password: req.body.password
@@ -50,7 +56,7 @@ class UserController {
 
     }
 
-    getMe(req: any, res: express.Response) {
+    getMe = (req: any, res: express.Response) => {
         const userId = req.user._id;
         UserModel.findById(userId, (err, user) => {
             if (err) {
@@ -63,7 +69,7 @@ class UserController {
         })
     }
 
-    show(req: express.Request, res: express.Response) {
+    show = (req: express.Request, res: express.Response) => {
         const id: string = req.params.id;
         UserModel.findById(id, (err, user) => {
             if (err) {
@@ -76,7 +82,7 @@ class UserController {
         });
     };
 
-    create(req: express.Request, res: express.Response) {
+    create = (req: express.Request, res: express.Response) => {
         const postData = {
             email: req.body.email,
             fullname: req.body.fullname,
@@ -102,7 +108,7 @@ class UserController {
             });
     };
 
-    delete(req: express.Request, res: express.Response) {
+    delete = (req: express.Request, res: express.Response) => {
         const id: string = req.params.id;
         UserModel.findOneAndDelete({ _id: id })
             .then((user) => {

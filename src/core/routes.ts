@@ -11,25 +11,30 @@ import {
 
 import { LoginValidation, RegisterValidation } from '../util/validations';
 
-const appRoutes = (app: express.Express, io: socket.EngineSocket) => {
+const appRoutes = (app: express.Express, io: socket.Server) => {
+
+    // В каждый контроллер передаем сокет io
+    const UserCntrl = new UserController(io);
+    const DialogCntrl = new DialogController(io);
+    const MessageCntrl = new MessageController(io);
 
     // Для того чтобы работать в json данными
     app.use(bodyParser.json());
     app.use(UpdateLastLogin);
     app.use(checkAuth);
 
-    app.post('/user/sing-up', RegisterValidation, UserController.create);
-    app.post('/user/sing-in', LoginValidation, UserController.singin);
-    app.get('/user/profile', UserController.getMe);
-    app.get('/user/:id', UserController.show);
-    app.delete('/user/:id', UserController.delete);
+    app.post('/user/sing-up', RegisterValidation, UserCntrl.create);
+    app.post('/user/sing-in', LoginValidation, UserCntrl.singin);
+    app.get('/user/profile', UserCntrl.getMe);
+    app.get('/user/:id', UserCntrl.show);
+    app.delete('/user/:id', UserCntrl.delete);
     
-    app.get('/dialogs', DialogController.index);
-    app.delete('/dialogs/:id', DialogController.delete);
-    app.post('/dialogs', DialogController.create);
+    app.get('/dialogs', DialogCntrl.index);
+    app.delete('/dialogs/:id', DialogCntrl.delete);
+    app.post('/dialogs', DialogCntrl.create);
     
-    app.get('/messages', MessageController.index);
-    app.post('/messages', MessageController.create);
+    app.get('/messages', MessageCntrl.index);
+    app.post('/messages', MessageCntrl.create);
 };
 
 export default appRoutes;

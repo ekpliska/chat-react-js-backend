@@ -1,10 +1,17 @@
 import express from 'express';
+import socket from 'socket.io';
 
 import { DialogModel, MessageModel } from '../models';
 
 class DialogController {
 
-    index(req: any, res: express.Response) {
+    io: socket.Server;
+
+    constructor(io: socket.Server) {
+        this.io = io;
+    }
+
+    index = (req: any, res: express.Response) => {
         const authorId: string = req.user._id;
         DialogModel.find({ author: authorId })
             .populate(['author', 'partner'])
@@ -19,7 +26,7 @@ class DialogController {
             })
     };
 
-    create(req: any, res: express.Response) {
+    create = (req: any, res: express.Response) => {
         const postDataDialog: object = {
             author: req.user._id,
             partner: req.body.partner
@@ -49,7 +56,7 @@ class DialogController {
             });
     }
 
-    delete(req: express.Request, res: express.Response) {
+    delete = (req: express.Request, res: express.Response) => {
         const id: string = req.params.id;
         DialogModel.findOneAndRemove({ _id: id })
             .then(() => {
