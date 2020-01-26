@@ -4,7 +4,7 @@ import { IUser } from '../models/User';
 
 export default (req: any, res: any, next: any) => {
 
-    if (req.path === '/user/sing-in' || req.path === '/user/sing-up') {
+    if (req.path === '/user/sing-in' || req.path === '/user/sing-up' || req.path === '/user/verify') {
         return next();
     }
 

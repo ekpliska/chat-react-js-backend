@@ -45,11 +45,10 @@ const UserSchema = new Schema({
 UserSchema.pre('save', async function (next: any) {
     const user: any = this;
 
-    
     if (!user.isModified('password')) {
         return next();
     }
-    
+
     user.password = await generatePasswordHash(user.password);
     user.confirmed_hash = await generatePasswordHash(new Date().toString());
 

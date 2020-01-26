@@ -45,7 +45,7 @@ class UserController {
                 });
 
             } else {
-                res.status(403).json({
+                res.json({
                     success: false,
                     message: 'Неверный логин или пароль'
                 });
@@ -59,7 +59,7 @@ class UserController {
     getMe = (req: any, res: express.Response) => {
         const userId = req.user._id;
         UserModel.findById(userId, (err, user) => {
-            if (err) {
+            if (err || !user) {
                 return res.status(404)
                     .json({
                         message: 'Пользователь не найден'
@@ -101,12 +101,53 @@ class UserController {
         user
             .save()
             .then((obj: any) => {
-                res.json(obj)
+                res.json({
+                    success: true,
+                    message: obj
+                });
             })
             .catch((reason) => {
-                res.json(reason)
+                res.status(500).json({
+                    success: false,
+                    message: reason
+                })
             });
     };
+
+    // sinp-up/verify?hash=<string>
+    verify = (req: express.Request, res: express.Response) => {
+        const hash = req.query.hash;
+
+        if (!hash) {
+            return res.status(422).json({
+                errors: 'Invalid hash'
+            });
+        }
+
+        UserModel.findOne({ confirmed_hash: hash }, (err, user) => {
+            if (err || !user) {
+                return res.status(404).json({
+                    success: false,
+                    errors: 'Hash not found'
+                });
+            }
+
+            user.confirmed = true;
+            user
+                .save(err => {
+                    if (err) {
+                        return res.status(404).json({
+                            success: false,
+                            errors: err
+                        });
+                    }
+                    res.json({
+                        success: true,
+                        message: 'Ваш аккаун успешно подтвержден'
+                    });
+                })
+        })
+    }
 
     delete = (req: express.Request, res: express.Response) => {
         const id: string = req.params.id;
