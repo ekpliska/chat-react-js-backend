@@ -14,6 +14,7 @@ class DialogController {
     index = (req: any, res: express.Response) => {
         const authorId: string = req.user._id;
         DialogModel.find({ author: authorId })
+            .or([{ author: authorId }, { partner: authorId }])
             .populate(['author', 'partner'])
             .populate({
                 path: 'lastMessage',
@@ -37,29 +38,58 @@ class DialogController {
             author: req.user._id,
             partner: req.body.partner
         };
-        const dialog = new DialogModel(postDataDialog);
-        dialog
-            .save()
-            .then((dialogObj: any) => {
-                /** Сохраняем первое сообщение диалога */
-                const postDataMessage = {
-                    text: req.body.text,
-                    dialog: dialogObj._id,
-                    user: req.body.author
-                };
-                const message = new MessageModel(postDataMessage);
-                message
-                    .save()
-                    .then(() => {
-                        res.json(dialogObj);
-                    })
-                    .catch((err) => {
-                        res.json(err);
-                    })
-            })
-            .catch((reason) => {
-                res.json(reason);
-            });
+
+        DialogModel.findOne(
+            {
+                author: req.user._id,
+                partner: req.body.partner
+            },
+            (err, user) => {
+                if (err) {
+                    return res.status(500).json({
+                        success: false,
+                        message: err
+                    });
+                }
+
+                if (user) {
+                    return res.status(403).json({
+                        success: false,
+                        message: 'Такой диалог уже есть',
+                    });
+                } else {
+                    const dialog = new DialogModel(postDataDialog);
+                    dialog
+                        .save()
+                        .then((dialogObj: any) => {
+                            /** Сохраняем первое сообщение диалога */
+                            const postDataMessage = {
+                                text: req.body.text,
+                                dialog: dialogObj._id,
+                                user: req.user._id
+                            };
+                            const message = new MessageModel(postDataMessage);
+                            message
+                                .save()
+                                .then(() => {
+                                    dialogObj.lastMessage = message._id;
+                                    dialogObj.save().then(() => {
+                                        res.json(dialogObj);
+                                    });
+                                })
+                                .catch(reason => {
+                                    res.json(reason);
+                                });
+                        })
+                        .catch((err) => {
+                            res.json({
+                                success: false,
+                                message: err,
+                            });
+                        });
+                }
+            }
+        );
     }
 
     delete = (req: express.Request, res: express.Response) => {

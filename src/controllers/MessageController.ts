@@ -23,7 +23,7 @@ class MessageController {
                         });
                 }
                 return res.json(dialogs);
-        })
+            })
     };
 
     create = (req: express.Request, res: express.Response) => {
@@ -45,43 +45,45 @@ class MessageController {
                     }
 
                     DialogModel.findByIdAndUpdate(
-                        { _id: postData.dialog }, 
+                        { _id: postData.dialog },
                         { lastMessage: message._id },
-                        { upsert: true }, (err: any) => {
+                        { upsert: true },
+                        function (err: any) {
                             if (err) {
                                 return res.status(500).json({
                                     success: false,
                                     message: err
                                 });
                             }
+                        }
+                    );
 
-                            res.json(message);
-                            this.io.emit('SERVER:NEW_MESSAGE', message);
+                    res.json(message);
+                    this.io.emit('SERVER:NEW_MESSAGE', message);
 
-                        })
-                })
+                });
             })
             .catch((reason) => {
                 res.json(reason);
             });
     }
 
-    delete = (req: express.Request, res: express.Response) => {
-        const id:string = req.params.id;
-        MessageModel.findOneAndDelete({ _id: id })
-            .then((message: any) => {
-                if (message) {
-                    res.json({
-                        message: 'Сообщение удалено'
-                    });
-                }
-            })
-            .catch(() => {
+delete = (req: express.Request, res: express.Response) => {
+    const id: string = req.params.id;
+    MessageModel.findOneAndDelete({ _id: id })
+        .then((message: any) => {
+            if (message) {
                 res.json({
-                    message: 'Сообщение не найдено'
+                    message: 'Сообщение удалено'
                 });
+            }
+        })
+        .catch(() => {
+            res.json({
+                message: 'Сообщение не найдено'
             });
-    }
+        });
+}
 
 }
 

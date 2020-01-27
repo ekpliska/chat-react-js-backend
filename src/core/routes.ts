@@ -20,8 +20,8 @@ const appRoutes = (app: express.Express, io: socket.Server) => {
 
     // Для того чтобы работать в json данными
     app.use(bodyParser.json());
-    app.use(UpdateLastLogin);
     app.use(checkAuth);
+    app.use(UpdateLastLogin);
 
     app.post('/user/sing-up', RegisterValidation, UserCntrl.create);
     app.get('/user/verify', UserCntrl.verify);

@@ -1,15 +1,22 @@
 import express from 'express';
 import { UserModel } from '../models';
 
-export default (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    UserModel.updateOne({
-        _id: '5e231bf1caa0dd24bcc89f6e'
-    }, {
-        $set: {
-            last_login: new Date()
-        }
-    },
-    () => {},
-    );
-    next();
+declare module 'express' {
+    export interface Request {
+        user?: any;
+    }
 }
+
+export default (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if (req.user) {
+        UserModel.findOneAndUpdate(
+            { _id: req.user.id },
+            {
+                last_login: new Date()
+            },
+            { new: true },
+            () => { }
+        );
+    }
+    next();
+};

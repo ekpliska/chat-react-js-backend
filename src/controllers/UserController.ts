@@ -57,14 +57,16 @@ class UserController {
     }
 
     getMe = (req: any, res: express.Response) => {
+        
         const userId = req.user._id;
-        UserModel.findById(userId, (err, user) => {
+        UserModel.findById(userId, (err, user: any) => {
             if (err || !user) {
                 return res.status(404)
-                    .json({
-                        message: 'Пользователь не найден'
-                    });
+                .json({
+                    message: 'Пользователь не найден'
+                });
             }
+            console.log('isOnline', user.isOnline);
             return res.json(user);
         })
     }
