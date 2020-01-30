@@ -75,6 +75,10 @@ class DialogController {
                                     dialogObj.lastMessage = message._id;
                                     dialogObj.save().then(() => {
                                         res.json(dialogObj);
+                                        this.io.emit('SERVER:DIALOG_CREATED', {
+                                            ...postDataDialog,
+                                            dialog: dialogObj
+                                        });
                                     });
                                 })
                                 .catch(reason => {
