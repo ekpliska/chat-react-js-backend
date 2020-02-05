@@ -30,7 +30,7 @@ class MessageController {
         const postData = {
             text: req.body.text,
             dialog: req.body.dialog_id,
-            user: 'req.user._id'
+            user: req.user._id
         };
         const message = new MessageModel(postData);
         message
@@ -59,7 +59,7 @@ class MessageController {
                     );
 
                     res.json(message);
-                    this.io.emit('SERVER:NEW_MESSAGE', message);
+                    this.io.emit('SERVER:MESSAGES_CREATED', message);
 
                 });
             })
