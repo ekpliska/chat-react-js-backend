@@ -27,6 +27,7 @@ const appRoutes = (app: express.Express, io: socket.Server) => {
     app.get('/user/verify', UserCntrl.verify);
     app.post('/user/sing-in', LoginValidation, UserCntrl.singin);
     app.get('/user/profile', UserCntrl.getMe);
+    app.get('/user/search', UserCntrl.search);
     app.get('/user/:id', UserCntrl.show);
     app.delete('/user/:id', UserCntrl.delete);
     
@@ -36,6 +37,7 @@ const appRoutes = (app: express.Express, io: socket.Server) => {
     
     app.get('/messages', MessageCntrl.index);
     app.post('/messages', MessageCntrl.create);
+    app.delete('/messages/:id', MessageCntrl.delete);
 };
 
 export default appRoutes;

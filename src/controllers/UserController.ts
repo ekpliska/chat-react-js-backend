@@ -57,18 +57,38 @@ class UserController {
     }
 
     getMe = (req: any, res: express.Response) => {
-        
         const userId = req.user._id;
+
         UserModel.findById(userId, (err, user: any) => {
             if (err || !user) {
                 return res.status(404)
-                .json({
-                    message: 'Пользователь не найден'
-                });
+                    .json({
+                        message: 'Пользователь не найден'
+                    });
             }
-            console.log('isOnline', user.isOnline);
             return res.json(user);
         })
+    }
+
+    search = (req: any, res: express.Response) => {
+        // route: /user/search?query=<value_search>
+        const query = req.query.query;
+
+        UserModel.find()
+            .or([
+                { fullname: new RegExp(query, "i") }, 
+                { email: new RegExp(query, "i") }
+            ])
+            .then((users: any) => {
+                res.json(users);
+            })
+            .catch(() => {
+                return res.status(404)
+                    .json({
+                        success: false,
+                        message: 'Пользователь не найден'
+                    });
+            })
     }
 
     show = (req: express.Request, res: express.Response) => {

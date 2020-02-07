@@ -68,22 +68,22 @@ class MessageController {
             });
     }
 
-delete = (req: express.Request, res: express.Response) => {
-    const id: string = req.params.id;
-    MessageModel.findOneAndDelete({ _id: id })
-        .then((message: any) => {
-            if (message) {
+    delete = (req: express.Request, res: express.Response) => {
+        const id: string = req.params.id;
+        MessageModel.findOneAndDelete({ _id: id })
+            .then((message: any) => {
+                if (message) {
+                    res.json({
+                        message: 'Сообщение удалено'
+                    });
+                }
+            })
+            .catch(() => {
                 res.json({
-                    message: 'Сообщение удалено'
+                    message: 'Сообщение не найдено'
                 });
-            }
-        })
-        .catch(() => {
-            res.json({
-                message: 'Сообщение не найдено'
             });
-        });
-}
+    }
 
 }
 

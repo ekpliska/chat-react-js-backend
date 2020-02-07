@@ -36,7 +36,7 @@ class DialogController {
     };
 
     create = (req: any, res: express.Response) => {
-        const postDataDialog: object = {
+        const postDataDialog = {
             author: req.user._id,
             partner: req.body.partner
         };
