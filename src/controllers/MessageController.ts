@@ -70,19 +70,60 @@ class MessageController {
 
     delete = (req: express.Request, res: express.Response) => {
         const id: string = req.params.id;
-        MessageModel.findOneAndDelete({ _id: id })
-            .then((message: any) => {
-                if (message) {
-                    res.json({
-                        message: 'Сообщение удалено'
-                    });
-                }
-            })
-            .catch(() => {
-                res.json({
+        const authorid: string = req.user._id;
+
+        MessageModel.findById(id, (err, message: any) => {
+            if (err || !message) {
+                return res.status(404).json({
+                    success: false,
                     message: 'Сообщение не найдено'
                 });
+            }
+
+            if (message.user.toString() !== authorid) {
+                return res.status(403).json({
+                    success: false,
+                    message: 'Вы не являетесь автором сообщения'
+                });
+            }
+
+            const dialogId = message.dialog;
+
+            message.remove();
+
+            MessageModel.findOne(
+                { dialog: dialogId },
+                {},
+                { sort: { 'created_at': -1 } },
+                (err, lastMessage) => {
+                    console.log('lastMessage', lastMessage);
+                    if (err) {
+                        return res.status(500).json({
+                            success: false,
+                            message: err
+                        });
+                    }
+
+                    DialogModel.findById(dialogId, (err, dialog: any) => {
+                        if (err) {
+                            return res.status(500).json({
+                                success: false,
+                                message: err
+                            });
+                        }
+
+                        dialog.lastMessage = lastMessage;
+                        dialog.save();
+                    });
+
+                });
+
+            return res.json({
+                success: true,
+                message: 'Сообщение успешно удалено'
             });
+
+        });
     }
 
 }
