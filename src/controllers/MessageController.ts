@@ -13,12 +13,18 @@ class MessageController {
 
     index = (req: express.Request, res: express.Response) => {
         const dialogId: string = req.query.dialog;
+        const userId = req.user._id;
+
+        /** Отметить сообщения как "прочитанные" */
+        // this.updateReadedStatus(res, userId, dialogId);
+
         MessageModel.find({ dialog: dialogId })
             .populate(['dialog', 'user'])
             .exec((err, dialogs) => {
                 if (err) {
                     return res.status(404)
                         .json({
+                            success: false,
                             message: 'Диалог не найден'
                         });
                 }
@@ -126,6 +132,20 @@ class MessageController {
         });
     }
 
+    updateReadedStatus = (res: express.Response, userId: string, dialogId: string) => {
+        MessageModel.updateMany(
+            { dialog: dialogId, user: { $ne: userId } },
+            { $set: { readed: true } },
+            (err: any) => {
+                if (err) {
+                    return res.status(500).json({
+                        success: false,
+                        message: err,
+                    });
+                }
+            },
+        );
+    };
 }
 
 export default MessageController;

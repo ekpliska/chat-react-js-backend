@@ -3,7 +3,7 @@ import isEmail from 'validator/lib/isEmail';
 
 export interface IMessage extends Document {
     text: string;
-    unread: boolean;
+    readed: boolean;
     dialog: {
         type: Schema.Types.ObjectId;
         ref: string;
@@ -19,7 +19,7 @@ const MessageSchema = new Schema({
         type: String,
         required: 'Укажите текст сообщения',
     },
-    unread: {
+    readed: {
         type: Boolean,
         default: false
     },
