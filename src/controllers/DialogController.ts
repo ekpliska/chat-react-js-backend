@@ -103,11 +103,13 @@ class DialogController {
         DialogModel.findOneAndRemove({ _id: id })
             .then(() => {
                 res.json({
+                    success: true,
                     message: 'Диалог удален'
                 });
             })
             .catch(() => {
                 res.json({
+                    success: false,
                     message: 'Диалог не найден'
                 });
             });

@@ -7,9 +7,12 @@ import { UpdateLastLogin, checkAuth } from '../middlewares';
 import { 
     UserController, 
     DialogController, 
-    MessageController } from '../controllers';
+    MessageController,
+    UploadController } from '../controllers';
 
 import { LoginValidation, RegisterValidation } from '../util/validations';
+
+import uploader from '../core/uploader';
 
 const appRoutes = (app: express.Express, io: socket.Server) => {
 
@@ -17,6 +20,7 @@ const appRoutes = (app: express.Express, io: socket.Server) => {
     const UserCntrl = new UserController(io);
     const DialogCntrl = new DialogController(io);
     const MessageCntrl = new MessageController(io);
+    const UploadCntrl = new UploadController(io);
 
     // Для того чтобы работать в json данными
     app.use(bodyParser.json());
@@ -38,6 +42,10 @@ const appRoutes = (app: express.Express, io: socket.Server) => {
     app.get('/messages', MessageCntrl.index);
     app.post('/messages', MessageCntrl.create);
     app.delete('/messages/:id', MessageCntrl.delete);
+
+    app.get('/files', uploader.single('image'), MessageCntrl.create);
+    app.delete('/files/:id', MessageCntrl.delete);
+
 };
 
 export default appRoutes;
