@@ -19,7 +19,7 @@ class MessageController {
         // this.updateReadedStatus(res, userId, dialogId);
 
         MessageModel.find({ dialog: dialogId })
-            .populate(['dialog', 'user'])
+            .populate(['dialog', 'user', 'attachments'])
             .exec((err, dialogs) => {
                 if (err) {
                     return res.status(404)
@@ -36,13 +36,14 @@ class MessageController {
         const postData = {
             text: req.body.text,
             dialog: req.body.dialog_id,
-            user: req.user._id
+            user: req.user._id,
+            attachments: req.body.attachments
         };
         const message = new MessageModel(postData);
         message
             .save()
             .then((obj: any) => {
-                obj.populate(['dialog', 'user'], (err: any, message: any) => {
+                obj.populate(['dialog', 'user', 'attachments'], (err: any, message: any) => {
                     if (err) {
                         return res.status(500).json({
                             success: false,

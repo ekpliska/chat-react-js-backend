@@ -32,9 +32,15 @@ const MessageSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'User',
         required: 'Не передан ID пользователя',
-    }
+    },
+    // Вложения к сообщениям
+    attachments: [{
+        type: Schema.Types.ObjectId, 
+        ref: 'UploadFile',
+    }]
 }, {
-    timestamps: true
+    timestamps: true,
+    usePushEach: true
 });
 
 const MessageModel = mongoose.model<IMessage>('Message', MessageSchema);
