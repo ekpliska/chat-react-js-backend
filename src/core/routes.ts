@@ -12,7 +12,7 @@ import {
 
 import { LoginValidation, RegisterValidation } from '../util/validations';
 
-import uploader from '../core/uploader';
+import multer from './multer';
 
 const appRoutes = (app: express.Express, io: socket.Server) => {
 
@@ -43,8 +43,8 @@ const appRoutes = (app: express.Express, io: socket.Server) => {
     app.post('/messages', MessageCntrl.create);
     app.delete('/messages/:id', MessageCntrl.delete);
 
-    app.get('/files', uploader.single('image'), MessageCntrl.create);
-    app.delete('/files/:id', MessageCntrl.delete);
+    app.post('/files', multer.single('file'), UploadCntrl.create);
+    // app.delete('/files/:id', UploadCntrl.delete);
 
 };
 
