@@ -14,7 +14,7 @@ class UploadController {
         const userId: string = req.user._id;
         const file: any = req.file;
         const fileData = {
-            filename: file.originalname,
+            filename: file.original_filename,
             size: file.bytes,
             url: file.url,
             ext: file.format,
