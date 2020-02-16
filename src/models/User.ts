@@ -46,7 +46,7 @@ const UserSchema = new Schema({
 
 // Добавляем значение isOnline
 UserSchema.virtual('isOnline').get(function (this: any) {
-    return differenceInMinutes(new Date(), this.last_login) > 5;
+    return differenceInMinutes(new Date(), this.last_login) < 5;
 });
 
 UserSchema.set('toJSON', {

@@ -15,7 +15,7 @@ class UserController {
         this.io = io;
     }
 
-    singin = (req: express.Request, res: express.Response) => {
+    signin = (req: express.Request, res: express.Response) => {
         const postData = {
             email: req.body.email,
             password: req.body.password
@@ -45,7 +45,7 @@ class UserController {
                 });
 
             } else {
-                res.json({
+                res.status(403).json({
                     success: false,
                     message: 'Неверный логин или пароль'
                 });

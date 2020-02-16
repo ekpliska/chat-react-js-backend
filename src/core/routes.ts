@@ -29,7 +29,7 @@ const appRoutes = (app: express.Express, io: socket.Server) => {
 
     app.post('/user/sing-up', RegisterValidation, UserCntrl.create);
     app.get('/user/verify', UserCntrl.verify);
-    app.post('/user/sing-in', LoginValidation, UserCntrl.singin);
+    app.post('/user/sing-in', LoginValidation, UserCntrl.signin);
     app.get('/user/profile', UserCntrl.getMe);
     app.get('/user/search', UserCntrl.search);
     app.get('/user/:id', UserCntrl.show);
