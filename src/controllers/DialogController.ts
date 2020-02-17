@@ -13,7 +13,6 @@ class DialogController {
 
     index = (req: any, res: express.Response) => {
         const authorId: string = req.user._id;
-        console.log('authorId', authorId);
         
         DialogModel.find()
             .or([{ author: authorId }, { partner: authorId }])

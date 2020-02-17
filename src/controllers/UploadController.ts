@@ -16,8 +16,6 @@ class UploadController {
         const userId = req.user._id;
         const file: any = req.file;
 
-        // console.log('file', file);
-
         cloudinary.v2.uploader
             .upload_stream({ resource_type: "auto" }, (error: any, result: any) => {
                 if (error) {

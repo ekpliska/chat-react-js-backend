@@ -2,7 +2,10 @@ import mongoose, { Schema, Document } from 'mongoose';
 import isEmail from 'validator/lib/isEmail';
 
 export interface IMessage extends Document {
-    text: string;
+    text: {
+        type: Schema.Types.String;
+        require: boolean;
+    };
     readed: boolean;
     dialog: {
         type: Schema.Types.ObjectId;
@@ -17,7 +20,7 @@ export interface IMessage extends Document {
 const MessageSchema = new Schema({
     text: {
         type: String,
-        required: 'Укажите текст сообщения',
+        require: Boolean
     },
     readed: {
         type: Boolean,
@@ -26,12 +29,12 @@ const MessageSchema = new Schema({
     dialog: { 
         type: Schema.Types.ObjectId, 
         ref: 'Dialog',
-        required: 'Не передан ID диалога',
+        require: true
     },
     user: {
         type: Schema.Types.ObjectId, 
         ref: 'User',
-        required: 'Не передан ID пользователя',
+        require: true
     },
     // Вложения к сообщениям
     attachments: [{

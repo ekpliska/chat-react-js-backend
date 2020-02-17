@@ -103,7 +103,6 @@ class MessageController {
                 {},
                 { sort: { 'created_at': -1 } },
                 (err, lastMessage) => {
-                    console.log('lastMessage', lastMessage);
                     if (err) {
                         return res.status(500).json({
                             success: false,
